@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   app: {
+    baseURL: '/cloud-hosting-mauritius/',
     head: {
       htmlAttrs: { lang: 'en' },
       meta: [
