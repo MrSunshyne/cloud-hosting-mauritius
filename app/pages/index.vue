@@ -171,42 +171,45 @@ useSeoMeta({
                   Price/mo{{ sortIcon('price') }}
                 </th>
                 <th>Location</th>
-                <th v-if="showNotes">Notes</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="plan in filteredPlans" :key="plan.id">
-                <td>
-                  <span class="provider-badge" :style="{ '--c': providerColor(plan.providerSlug) }">
-                    {{ plan.provider }}
-                  </span>
-                </td>
-                <td class="plan-name">{{ plan.name }}</td>
-                <td class="num">
-                  <span v-if="plan.sharedCpu" class="shared-tag">shared</span>
-                  {{ plan.vcpus }}
-                </td>
-                <td class="num">{{ plan.ramGb }} GB</td>
-                <td class="num">
-                  <template v-if="plan.storageGb > 0">
-                    {{ plan.storageGb }} GB {{ plan.storageType }}
-                  </template>
-                  <span v-else class="muted">{{ plan.storageType }}</span>
-                </td>
-                <td>{{ plan.bandwidth }}</td>
-                <td class="num price-cell">
-                  <template v-if="showWithVat">
-                    <span class="vat-tag vat-incl">VAT incl.</span>
-                  </template>
-                  <template v-else>
-                    <span v-if="!plan.vatInclusive" class="vat-tag">+VAT</span>
-                    <span v-else class="vat-tag vat-incl">VAT incl.</span>
-                  </template>
-                  <strong>{{ formatPrice(plan) }}</strong>
-                </td>
-                <td class="location-cell">{{ plan.location }}</td>
-                <td v-if="showNotes" class="notes-cell">{{ plan.notes }}</td>
-              </tr>
+              <template v-for="plan in filteredPlans" :key="plan.id">
+                <tr>
+                  <td>
+                    <span class="provider-badge" :style="{ '--c': providerColor(plan.providerSlug) }">
+                      {{ plan.provider }}
+                    </span>
+                  </td>
+                  <td class="plan-name">{{ plan.name }}</td>
+                  <td class="num">
+                    <span v-if="plan.sharedCpu" class="shared-tag">shared</span>
+                    {{ plan.vcpus }}
+                  </td>
+                  <td class="num">{{ plan.ramGb }} GB</td>
+                  <td class="num">
+                    <template v-if="plan.storageGb > 0">
+                      {{ plan.storageGb }} GB {{ plan.storageType }}
+                    </template>
+                    <span v-else class="muted">{{ plan.storageType }}</span>
+                  </td>
+                  <td>{{ plan.bandwidth }}</td>
+                  <td class="num price-cell">
+                    <template v-if="showWithVat">
+                      <span class="vat-tag vat-incl">VAT incl.</span>
+                    </template>
+                    <template v-else>
+                      <span v-if="!plan.vatInclusive" class="vat-tag">+VAT</span>
+                      <span v-else class="vat-tag vat-incl">VAT incl.</span>
+                    </template>
+                    <strong>{{ formatPrice(plan) }}</strong>
+                  </td>
+                  <td class="location-cell">{{ plan.location }}</td>
+                </tr>
+                <tr v-if="showNotes && plan.notes" class="notes-row">
+                  <td colspan="8" class="notes-cell">{{ plan.notes }}</td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
@@ -385,20 +388,6 @@ useSeoMeta({
   font-variant-numeric: tabular-nums;
 }
 
-.notes-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.notes-toggle input {
-  accent-color: var(--text);
-}
-
 .sort-buttons {
   display: flex;
   align-items: center;
@@ -553,10 +542,20 @@ useSeoMeta({
   white-space: nowrap;
 }
 
-.notes-cell {
-  font-size: 12px;
-  color: var(--text-secondary);
-  max-width: 200px;
+.notes-row td {
+  border-bottom: 1px solid var(--row-border);
+}
+
+.notes-row .notes-cell {
+  padding: 0 12px 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.notes-row + tr td,
+tr:has(+ .notes-row) td {
+  border-bottom: none;
 }
 
 .empty-state {
@@ -579,8 +578,8 @@ useSeoMeta({
     flex-wrap: wrap;
   }
 
-  .notes-cell {
-    display: none;
+  .notes-row .notes-cell {
+    font-size: 11px;
   }
 }
 </style>
