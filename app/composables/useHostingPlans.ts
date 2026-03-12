@@ -8,16 +8,16 @@ export type FilterMode = 'min' | 'max'
 // Module-level shared state (singleton across all callers)
 const maxPriceLimit = Math.max(...plans.map(p => p.priceMur))
 const selectedProviders = ref<string[]>(['cloud-mu', 'myt-cloud', 'gcp', 'rackzar'])
-const cpuFilterValue = ref(0)
-const cpuFilterMode = ref<FilterMode>('min')
-const ramFilterValue = ref(0)
-const ramFilterMode = ref<FilterMode>('min')
+const cpuFilterValue = ref(4)
+const cpuFilterMode = ref<FilterMode>('max')
+const ramFilterValue = ref(3)
+const ramFilterMode = ref<FilterMode>('max')
 const maxPrice = ref(maxPriceLimit)
 const sortField = ref<SortField>('price')
 const sortDirection = ref<SortDirection>('asc')
 const currency = ref<Currency>('MUR')
 const hideSharedCpu = ref(false)
-const showWithVat = ref(false)
+const showWithVat = ref(true)
 
 const VAT_RATE = 0.15
 
@@ -118,12 +118,13 @@ export function useHostingPlans() {
 
   function resetFilters() {
     selectedProviders.value = ['cloud-mu', 'myt-cloud', 'gcp', 'rackzar']
-    cpuFilterValue.value = 0
-    cpuFilterMode.value = 'min'
-    ramFilterValue.value = 0
-    ramFilterMode.value = 'min'
+    cpuFilterValue.value = 4
+    cpuFilterMode.value = 'max'
+    ramFilterValue.value = 3
+    ramFilterMode.value = 'max'
     maxPrice.value = maxPriceLimit
     hideSharedCpu.value = false
+    showWithVat.value = true
     sortField.value = 'price'
     sortDirection.value = 'asc'
   }
