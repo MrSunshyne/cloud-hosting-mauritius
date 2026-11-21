@@ -13,6 +13,9 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/cloud-hosting-mauritius/favicon.svg' },
       ],
+      script: [
+        { src: 'https://gc.zgo.at/count.js', async: true, 'data-goatcounter': 'https://cloud-hosting-mauritius.goatcounter.com/count' },
+      ],
     },
   },
 })
